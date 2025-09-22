@@ -27,3 +27,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/README.md
+/.idea/libraries/fasterxml_jackson_module_scala_2_9_3.xml
