@@ -5,46 +5,39 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-
 public class Shoot {
-    double count = 0;
-    Timeline timeline;
-    public Shoot(int atk , double xmouse, double ymouse) {
+    private Timeline timeline;
+    private Circle circle;
+    private double speed = 15; // Speed of the projectile
 
-
-        Circle circle = new Circle();
-
+    public Shoot(int atk, double xmouse, double ymouse) {
         double xPlayer = 600;
         double yPlayer = 400;
-        double xmove = xmouse-xPlayer;
-        double ymove = ymouse-yPlayer;
 
-
-
-        Game.rootgame.getChildren().add(circle);
+        circle = new Circle();
         circle.setFill(Color.RED);
         circle.setCenterX(xPlayer);
         circle.setCenterY(yPlayer);
-        circle.setRadius(2);
+        circle.setRadius(5); // Increased radius for better visibility
 
-        timeline = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
+        Game.rootgame.getChildren().add(circle);
 
-                for (int j = 0; j < xmove / 2; j++) {
-                    circle.setCenterX(circle.getCenterX() + 2);
-                }
+        double angle = Math.atan2(ymouse - yPlayer, xmouse - xPlayer);
+        double vx = speed * Math.cos(angle);
+        double vy = speed * Math.sin(angle);
 
-                for (int j = 0; j < ymove / 2; j++) {
-                    circle.setCenterY(circle.getCenterX() + 2);
-                }
-                if (count == xmouse){
-                    timeline.stop();
-                }
+        timeline = new Timeline(new KeyFrame(Duration.millis(16), event -> {
+            circle.setCenterX(circle.getCenterX() + vx);
+            circle.setCenterY(circle.getCenterY() + vy);
 
-
+            // Stop condition: if the circle is out of bounds
+            if (circle.getCenterX() < 0 || circle.getCenterX() > Main.Width ||
+                circle.getCenterY() < 0 || circle.getCenterY() > Main.Height) {
+                timeline.stop();
+                Game.rootgame.getChildren().remove(circle);
+            }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
-
-
     }
 }
