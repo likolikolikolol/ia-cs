@@ -26,6 +26,7 @@ public class Game {
     private Timeline    timeline;
     static Player player = new Player();
     Shoot shoot;
+    Equipment equipment = new Equipment();
 
 
     public void show() {
@@ -62,6 +63,10 @@ public class Game {
             if (event.getCode() == KeyCode.S) {
                 down = true;
 
+            }
+            if (event.getCode() == KeyCode.E) {
+                equipment.toggle();
+                equipment.setItems(player);
             }
         });
         a.setOnKeyReleased(event -> {
@@ -132,6 +137,10 @@ public class Game {
             if (event.getCode() == KeyCode.S) {
                 down = true;
 
+            }
+            if (event.getCode() == KeyCode.E) {
+                equipment.toggle();
+                equipment.setItems(player);
             }
         });
 

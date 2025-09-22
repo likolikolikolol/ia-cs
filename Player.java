@@ -1,6 +1,9 @@
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Player extends ImageView {
 int Hp;
@@ -10,11 +13,14 @@ int Xp;
 int atk;
     Button b = new Button();
 
-Equipment[][] equipment= new Equipment[10][8];
+    List<Item> items = new ArrayList<>();
     public Player() {
         Game.rootgame.getChildren().add(b);
         b.setLayoutX(600);
         b.setLayoutY(400);
+        // Add some sample items
+        items.add(new Item(10));
+        items.add(new Item(20));
     }
     public void onGround(){
         if (Board.onGround(600,400)==3){
