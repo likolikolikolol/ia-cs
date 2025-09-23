@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Game {
@@ -27,12 +29,14 @@ public class Game {
     static Player player = new Player();
     Shoot shoot;
     Equipment equipment = new Equipment();
+    private List<Enemy> enemies = new ArrayList<>();
 
 
     public void show() {
         Stage stage = new Stage();
         Scene a = new Scene(rootgame, Main.Width, Main.Height);
         board.generate(Mapheight, Mapwidth);
+        spawnEnemies(5);
         Button endgame = new Button("end");
         rootgame.getChildren().add(1,endgame);
         rootgame.getChildren().add(0,rootboard);
@@ -92,6 +96,15 @@ public class Game {
         stage.setScene(a);
         stage.show();
     }
+
+    private void spawnEnemies(int numberOfEnemies) {
+        for (int i = 0; i < numberOfEnemies; i++) {
+            int x = (int) (Math.random() * Mapwidth);
+            int y = (int) (Math.random() * Mapheight);
+            enemies.add(new Enemy(x, y));
+        }
+    }
+
     public void move(){
         timeline = new Timeline(new KeyFrame(Duration.millis(100),event -> {
             player.onGround();
@@ -106,6 +119,13 @@ public class Game {
             }
             if (Game.left) {
                 rootboard.setLayoutX(Game.rootboard.getLayoutX()+2);
+            }
+
+            // Move enemies
+            double playerX = -rootboard.getLayoutX() + 600;
+            double playerY = -rootboard.getLayoutY() + 400;
+            for (Enemy enemy : enemies) {
+                enemy.move(playerX, playerY);
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
