@@ -47,7 +47,7 @@ public class Game {
         });
 
         rootboard.setOnMousePressed(event -> {
-            shoot= new Shoot(player.atk, event.getX(), event.getY());
+            shoot= new Shoot(player.atk, event.getX(), event.getY(), enemies);
         });
 
 
@@ -187,7 +187,7 @@ public class Game {
         });
 
         rootboard.setOnMousePressed(event -> {
-            shoot= new Shoot(player.atk, event.getX(), event.getY());
+            shoot= new Shoot(player.atk, event.getX(), event.getY(), enemies);
         });
 
 
