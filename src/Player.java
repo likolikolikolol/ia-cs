@@ -43,7 +43,7 @@ import java.util.List;
 
 
 public class Player extends ImageView {
-    int Hp;
+    int Hp = 100;
     int Mp;
     int Lvl;
     int Xp;
@@ -78,4 +78,14 @@ public class Player extends ImageView {
         }
     }
 
+    public void takeDamage(int damage) {
+        this.Hp -= damage;
+        if (this.Hp <= 0) {
+            new Gameover().show();
+        }
+    }
+
+    public int getHp() {
+        return Hp;
+    }
 }

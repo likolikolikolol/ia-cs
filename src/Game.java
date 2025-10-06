@@ -368,6 +368,19 @@ public class Game {
             for (Enemy enemy : enemies) {
                 enemy.move(playerX, playerY);
             }
+
+            enemies.removeIf(enemy -> {
+                double enemyScreenX = enemy.getLayoutX() + rootboard.getLayoutX();
+                double enemyScreenY = enemy.getLayoutY() + rootboard.getLayoutY();
+                double distance = Math.hypot(enemyScreenX - 600, enemyScreenY - 400);
+
+                if (distance < 20) {
+                    player.takeDamage(enemy.getAtk());
+                    rootgame.getChildren().remove(enemy);
+                    return true;
+                }
+                return false;
+            });
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();

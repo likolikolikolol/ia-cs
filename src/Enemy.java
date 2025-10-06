@@ -60,6 +60,10 @@ public class Enemy extends ImageView {
         return hp;
     }
 
+    public int getAtk() {
+        return atk;
+    }
+
     public void takeDamage(int damage) {
         this.hp -= damage;
         if (this.hp <= 0) {
