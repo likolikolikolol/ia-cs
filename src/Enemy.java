@@ -63,7 +63,7 @@ public class Enemy extends ImageView {
     public void takeDamage(int damage) {
         this.hp -= damage;
         if (this.hp <= 0) {
-            // Handle enemy death (e.g., remove from game)
+
             Game.rootgame.getChildren().remove(this);
         }
     }

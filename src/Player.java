@@ -58,6 +58,7 @@ public class Player extends ImageView {
         // Add some sample items
         items.add(new Item(10));
         items.add(new Item(20));
+        atk = 50;
     }
     public void onGround(){
         if (Board.onGround(600,400)==3){
