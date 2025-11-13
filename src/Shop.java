@@ -1,3 +1,4 @@
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -40,12 +41,19 @@ public class Shop {
     }
 
     public Item generaterandomequipment (){
-        Item item = new Item((int) Math.random()*1000);
+        int atk = (int) (Math.random() * 10);
+        int def = (int) (Math.random() * 10);
+        int price = (int) (Math.random() * 100);
+        Item item = new Item(atk, def, price);
+
+        Tooltip tooltip = new Tooltip("Atk: " + atk + "\nDef: " + def + "\nPrice: " + price);
+        Tooltip.install(item, tooltip);
+
         item.setOnMouseClicked(event -> {
             Game.player.items.add(item);
+            Game.player.recalculateStats();
         });
         return item;
-      
     }
     public void toggle(boolean visible) {
 

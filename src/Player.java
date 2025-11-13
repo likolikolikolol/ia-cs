@@ -93,6 +93,7 @@ public class Player extends ImageView {
     int Lvl = 0;
     int Xp = 0;
     int atk;
+    int def;
 
     Button b = new Button();
 
@@ -105,8 +106,15 @@ public class Player extends ImageView {
         Game.rootgame.getChildren().add(b);
         b.setLayoutX(600);
         b.setLayoutY(400);
-        if (items.get(1) != null) {
-            atk = 50 + items.get(1).atk;
+        recalculateStats();
+    }
+
+    public void recalculateStats() {
+        atk = 5; // Base attack
+        def = 0; // Base defense
+        for (Item item : items) {
+            atk += item.atk;
+            def += item.def;
         }
     }
     public void onGround(){

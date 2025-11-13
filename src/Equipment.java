@@ -1,4 +1,5 @@
 import javafx.geometry.Insets;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -48,7 +49,10 @@ public class Equipment {
             if (i < 12) {
                 int row = i / 4;
                 int col = i % 4;
-                cells[row][col].getChildren().add(player.items.get(i));
+                Item item = player.items.get(i);
+                Tooltip tooltip = new Tooltip("Atk: " + item.atk + "\nDef: " + item.def + "\nPrice: " + item.price);
+                Tooltip.install(item, tooltip);
+                cells[row][col].getChildren().add(item);
             }
         }
     }

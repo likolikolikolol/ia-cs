@@ -3,6 +3,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -33,6 +34,7 @@ public class Game {
     private List<Enemy> enemies = new ArrayList<>();
     ProgressBar xpprogres = new ProgressBar();
     static Shop shop = new Shop();
+    private Label statsLabel;
 
 
     public void show() {
@@ -44,6 +46,11 @@ public class Game {
         rootgame.getChildren().add(1,endgame);
         rootgame.getChildren().add(0,rootboard);
         player.setHp(100);
+
+        statsLabel = new Label();
+        statsLabel.setLayoutX(10);
+        statsLabel.setLayoutY(10);
+        rootgame.getChildren().add(statsLabel);
 
         rootgame.getChildren().add(2, xpprogres);
 
@@ -158,6 +165,7 @@ public class Game {
                 enemy.move(playerX, playerY);
             }
             xpprogres.setProgress(player.Hp/100.0);
+            statsLabel.setText("HP: " + player.Hp + "\nXP: " + player.Xp + "\nLevel: " + player.Lvl);
          
 
             enemies.removeIf(enemy -> {
