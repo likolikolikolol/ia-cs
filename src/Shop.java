@@ -1,42 +1,57 @@
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class Shop {
     public GridPane equipmentgridpane = new GridPane();
-    Equipment[][] equipment = new Equipment[4][4];
+    private StackPane[][] cells = new StackPane[4][4];
+    boolean isVisible = false;
 
-    public void generaterandomequipment (){
-        int p = (int) (Math.random()*8);
-        for (int i = 0; i <4 ; i++) {
+    public Shop() {
+        equipmentgridpane.setVisible(false);
+        this.equipmentgridpane = equipmentgridpane;
+        for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if (p==0){
-
-                }
-                if (p==0){
-
-                }
-                if (p==1){
-
-                }
-                if (p==2){
-
-                }
-                if (p==3){
-
-                }
-                if (p==4){
-
-                }
-                if (p==5){
-
-                }
-                if (p==6){
-
-                }
-                if (p==7){
-
+                if (cells[i][j] != null && !cells[i][j].getChildren().isEmpty()) {
+                    cells[i][j].getChildren().removeIf(node -> node instanceof Item);
                 }
             }
         }
+        for (int i = 0; i < 4; i++) { // row
+            for (int j = 0; j < 4; j++) { // column
+                StackPane cell = new StackPane();
+                Rectangle border = new Rectangle(50, 50);
+                border.setFill(Color.GRAY);
+                border.setStroke(Color.BLACK);
+                cell.getChildren().add(border);
+                cells[i][j] = cell;
+                equipmentgridpane.add(cell, j, i);
+            }
+        }
+        Game.rootgame.getChildren().addAll(equipmentgridpane);
+        for (int i = 0; i < 16; i++) {
+            if (i < 16) {
+                int row = i / 4;
+                int col = i % 4;
+                cells[row][col].getChildren().add(generaterandomequipment());
+            }
+        }
+    }
+
+    public Item generaterandomequipment (){
+        Item item = new Item((int) Math.random()*1000);
+        item.setOnMouseClicked(event -> {
+            Game.player.items.add(item);
+        });
+        return item;
+      
+    }
+    public void toggle(boolean visible) {
+
+        equipmentgridpane.setVisible(visible);
+        isVisible=visible;
+
     }
 
 }

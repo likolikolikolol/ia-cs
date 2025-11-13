@@ -119,21 +119,26 @@ public class Board extends ImageView {
 
         Board which = groundg[(int) (xFarPlayer/32)][(int) (yFarPlayer/32)];
         if (which.getImage().equals(Tiles.ground1.image)){
+            Game.shop.toggle(false);
             return 0;
         }
         if (which.getImage().equals(Tiles.ground2.image)){
             return 5;
         }
         if (which.getLayoutX()==xFarPlayer && which.getImage().equals(Tiles.water.image)){
+            Game.shop.toggle(false);
             return 2;
         }
         if (which.getLayoutX()+32==xFarPlayer+1 && which.getImage().equals(Tiles.water.image)){
+            Game.shop.toggle(false);
             return 4;
         }
         if ( which.getLayoutY()==yFarPlayer && which.getImage().equals(Tiles.water.image)){
+            Game.shop.toggle(false);
             return 1;
         }
         if ( which.getLayoutY()+32==yFarPlayer+1 && which.getImage().equals(Tiles.water.image)){
+            Game.shop.toggle(false);
             return 3;
         }
         return 0;

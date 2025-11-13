@@ -104,7 +104,7 @@ public class Shoot {
                 Game.rootgame.getChildren().remove(circle);
             }
         }));
-        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.setCycleCount(1000);
         timeline.play();
     }
 }
