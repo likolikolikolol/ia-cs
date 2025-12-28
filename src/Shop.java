@@ -1,13 +1,12 @@
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
 public class Shop {
     public GridPane equipmentgridpane = new GridPane();
     private StackPane[][] cells = new StackPane[4][4];
     boolean isVisible = false;
-
     public Shop() {
         equipmentgridpane.setVisible(false);
         this.equipmentgridpane = equipmentgridpane;
@@ -40,18 +39,43 @@ public class Shop {
     }
 
     public Item generaterandomequipment (){
-        Item item = new Item((int) Math.random()*1000);
+        int atk = (int) (Math.random() * 10);
+        int def = (int) (Math.random() * 10);
+        int price = (int) (Math.random() * 100);
+        Item item = new Item(atk, def, price);
+
+        Tooltip tooltip = new Tooltip("Atk: " + atk + "\nDef: " + def + "\nPrice: " + price);
+        Tooltip.install(item, tooltip);
+
         item.setOnMouseClicked(event -> {
-            Game.player.items.add(item);
+            if (item.getPrice()<Game.player.getXp()) {
+                Game.player.items.add(item);
+                if (!item.used) {
+                    Game.player.recalculateStats();
+                    item.used= true;
+                    Game.player.Xp -= item.getPrice();
+                }
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 4; j++) {
+                        if (cells[i][j].getChildren().size() > 1) {
+                            if (cells[i][j].getChildren().get(1).equals(item)) {
+                                cells[i][j].getChildren().remove(item);
+                            }
+                        }
+                    }
+                }
+
+            }
+            else return;
+        });
+        item.setOnMouseDragEntered(event -> {
+            tooltip.show(Game.rootgame, 0, 0);
         });
         return item;
-      
     }
     public void toggle(boolean visible) {
 
         equipmentgridpane.setVisible(visible);
         isVisible=visible;
-
     }
-
 }
