@@ -21,14 +21,15 @@ public class Game {
     public static GridPane rootboard = new GridPane();
     public static int Mapheight = 3200;
     public static int Mapwidth = 3200;
+    private static final int ENEMY_SPAWN_COUNT = 100;
     public Timeline moving = new Timeline();
     public static Board board = new Board();
     private Timeline    timeline;
-    static Player player = new Player();
+    Player player = new Player(this);
     Shoot shoot;
     Equipment equipment = new Equipment();
     public static List<Enemy> enemies = new ArrayList<>();
-    ProgressBar xpprogres = new ProgressBar();
+    ProgressBar hpProgress = new ProgressBar();
     static Shop shop = new Shop();
     private Label statsLabel;
 
@@ -37,7 +38,7 @@ public class Game {
         Stage stage = new Stage();
         Scene a = new Scene(rootgame, Main.Width, Main.Height);
         board.generate(Mapheight, Mapwidth);
-        spawnEnemies(100);
+        spawnEnemies(ENEMY_SPAWN_COUNT);
         Button endgame = new Button("end");
         rootgame.getChildren().add(1,endgame);
         rootgame.getChildren().add(0,rootboard);
@@ -48,7 +49,7 @@ public class Game {
         statsLabel.setLayoutY(10);
         rootgame.getChildren().add(statsLabel);
 
-        rootgame.getChildren().add(2, xpprogres);
+        rootgame.getChildren().add(2, hpProgress);
 
         endgame.setOnAction(event -> {
             stage.close();
@@ -142,7 +143,7 @@ public class Game {
             for (Enemy enemy : enemies) {
                 enemy.move(playerX, playerY);
             }
-            xpprogres.setProgress(player.Hp/100.0);
+            hpProgress.setProgress(player.Hp/100.0);
             statsLabel.setText("HP: " + player.Hp + "\nXP: " + player.Xp + "\nLevel: " + player.Lvl);
 
 
@@ -205,5 +206,22 @@ public class Game {
         move();
         stage.setScene(a);
         stage.show();
+    }
+
+    public void resetGame() {
+        player.reset();
+        for (Enemy enemy : enemies) {
+            rootgame.getChildren().remove(enemy);
+        }
+        enemies.clear();
+        spawnEnemies(ENEMY_SPAWN_COUNT);
+        rootboard.setLayoutX(0);
+        rootboard.setLayoutY(0);
+        if (shop != null) {
+            rootgame.getChildren().remove(shop.equipmentgridpane);
+        }
+        shop = new Shop();
+        statsLabel.setText("HP: " + player.Hp + "\nXP: " + player.Xp + "\nLevel: " + player.Lvl);
+        hpProgress.setProgress(player.Hp / 100.0);
     }
 }

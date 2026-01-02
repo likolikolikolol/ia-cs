@@ -8,6 +8,7 @@ public class Player extends ImageView {
     int Lvl = 0;
     int Xp = 1000;
     int atk;
+    private Game game;
 
     Button b = new Button();
 
@@ -15,7 +16,8 @@ public class Player extends ImageView {
         Hp = hp;
     }
     List<Item> items = new ArrayList<>();
-    public Player() {
+    public Player(Game game) {
+        this.game = game;
         Game.rootgame.getChildren().add(b);
         b.setLayoutX(600);
         b.setLayoutY(400);
@@ -50,7 +52,8 @@ public class Player extends ImageView {
     public void takeDamage(int damage) {
         this.Hp -= damage;
         if (this.Hp <= 0) {
-            new Gameover().show();
+            game.timeline.stop();
+            new Gameover(game).show();
         }
     }
     public int getHp() {
@@ -59,5 +62,13 @@ public class Player extends ImageView {
 
     public int getXp() {
         return Xp;
+    }
+
+    public void reset() {
+        Hp = 100;
+        Xp = 1000;
+        Lvl = 0;
+        items.clear();
+        recalculateStats();
     }
 }

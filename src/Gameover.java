@@ -5,6 +5,11 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class Gameover {
+    private Game game;
+
+    public Gameover(Game game) {
+        this.game = game;
+    }
 
     public void show (){
         AnchorPane root = new AnchorPane();
@@ -20,10 +25,8 @@ public class Gameover {
 
         restart.setOnAction(event -> {
             stage.close();
-            Main.stage.setScene(Main.Mainscene);
-            Main.stage.show();
-
-            Main.working = true;
+            game.resetGame();
+            game.timeline.play();
         });
 
         stage.setScene(a);
